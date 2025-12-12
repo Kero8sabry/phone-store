@@ -1,0 +1,234 @@
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Observable, of } from 'rxjs';
+import { catchError } from 'rxjs/operators';
+import { Phone } from '../models/phone';
+
+@Injectable({
+  providedIn: 'root'
+})
+export class PhoneService {
+  private apiUrl = 'http://localhost:3000/phones';
+
+  constructor(private http: HttpClient) {}
+
+  getPhones(): Observable<Phone[]> {
+    // Try API first, fallback to mock data
+    return this.http.get<Phone[]>(this.apiUrl).pipe(
+      catchError(() => {
+        return of(this.getMockPhones());
+      })
+    );
+  }
+
+  getPhone(id: number): Observable<Phone> {
+    return this.http.get<Phone>(`${this.apiUrl}/${id}`).pipe(
+      catchError(() => {
+        const phones = this.getMockPhones();
+        const phone = phones.find(p => p.id === id);
+        if (phone) {
+          return of(phone);
+        }
+        throw new Error('Phone not found');
+      })
+    );
+  }
+
+  getMockPhones(): Phone[] {
+    return [
+      {
+        id: 1,
+        name: 'iPhone 15 Pro Max',
+        brand: 'Apple',
+        price: 1199,
+        image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=800&h=1000&fit=crop&q=80',
+        description: 'Latest flagship iPhone with A17 Pro chip, titanium design, and advanced camera system.',
+        storage: '256GB',
+        ram: '8GB',
+        display: '6.7" Super Retina XDR',
+        camera: '48MP Main + 12MP Ultra Wide + 12MP Telephoto',
+        battery: '4422 mAh',
+        processor: 'A17 Pro',
+        color: 'Natural Titanium',
+        inStock: true
+      },
+      {
+        id: 2,
+        name: 'Samsung Galaxy S24 Ultra',
+        brand: 'Samsung',
+        price: 1299,
+        image: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800&h=1000&fit=crop&q=80',
+        description: 'Premium Android flagship with S Pen, 200MP camera, and Snapdragon 8 Gen 3.',
+        storage: '512GB',
+        ram: '12GB',
+        display: '6.8" Dynamic AMOLED 2X',
+        camera: '200MP Main + 50MP Periscope + 12MP Ultra Wide + 10MP Telephoto',
+        battery: '5000 mAh',
+        processor: 'Snapdragon 8 Gen 3',
+        color: 'Titanium Black',
+        inStock: true
+      },
+      {
+        id: 3,
+        name: 'Google Pixel 8 Pro',
+        brand: 'Google',
+        price: 999,
+        image: 'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=800&h=1000&fit=crop&q=80',
+        description: 'AI-powered smartphone with exceptional camera and pure Android experience.',
+        storage: '256GB',
+        ram: '12GB',
+        display: '6.7" LTPO OLED',
+        camera: '50MP Main + 48MP Ultra Wide + 48MP Telephoto',
+        battery: '5050 mAh',
+        processor: 'Google Tensor G3',
+        color: 'Obsidian',
+        inStock: true
+      },
+      {
+        id: 4,
+        name: 'OnePlus 12',
+        brand: 'OnePlus',
+        price: 799,
+        image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=800&h=1000&fit=crop&q=80',
+        description: 'Flagship killer with fast charging, smooth performance, and premium design.',
+        storage: '256GB',
+        ram: '16GB',
+        display: '6.82" LTPO AMOLED',
+        camera: '50MP Main + 64MP Periscope + 48MP Ultra Wide',
+        battery: '5400 mAh',
+        processor: 'Snapdragon 8 Gen 3',
+        color: 'Silky Black',
+        inStock: true
+      },
+      {
+        id: 5,
+        name: 'Xiaomi 14 Pro',
+        brand: 'Xiaomi',
+        price: 899,
+        image: 'https://images.unsplash.com/photo-1556656793-08538906a9f8?w=800&h=1000&fit=crop&q=80',
+        description: 'Premium flagship with Leica cameras and cutting-edge technology.',
+        storage: '512GB',
+        ram: '16GB',
+        display: '6.73" LTPO AMOLED',
+        camera: '50MP Leica Main + 50MP Telephoto + 50MP Ultra Wide',
+        battery: '4880 mAh',
+        processor: 'Snapdragon 8 Gen 3',
+        color: 'Black',
+        inStock: true
+      },
+      {
+        id: 6,
+        name: 'Nothing Phone (2)',
+        brand: 'Nothing',
+        price: 599,
+        image: 'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=800&h=1000&fit=crop&q=80',
+        description: 'Unique transparent design with Glyph interface and premium specs.',
+        storage: '256GB',
+        ram: '12GB',
+        display: '6.7" LTPO OLED',
+        camera: '50MP Main + 50MP Ultra Wide',
+        battery: '4700 mAh',
+        processor: 'Snapdragon 8+ Gen 1',
+        color: 'White',
+        inStock: true
+      },
+      {
+        id: 7,
+        name: 'Sony Xperia 1 V',
+        brand: 'Sony',
+        price: 1399,
+        image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=800&h=1000&fit=crop&q=80',
+        description: 'Professional camera phone with 4K display and cinema-grade features.',
+        storage: '256GB',
+        ram: '12GB',
+        display: '6.5" 4K OLED',
+        camera: '48MP Main + 12MP Ultra Wide + 12MP Telephoto',
+        battery: '5000 mAh',
+        processor: 'Snapdragon 8 Gen 2',
+        color: 'Black',
+        inStock: true
+      },
+      {
+        id: 8,
+        name: 'OPPO Find X7 Ultra',
+        brand: 'OPPO',
+        price: 1099,
+        image: 'https://images.unsplash.com/photo-1556656793-08538906a9f8?w=800&h=1000&fit=crop&q=80',
+        description: 'Premium flagship with dual periscope cameras and fast charging.',
+        storage: '512GB',
+        ram: '16GB',
+        display: '6.82" LTPO AMOLED',
+        camera: '50MP Main + 50MP Periscope + 50MP Ultra Wide + 50MP Telephoto',
+        battery: '5000 mAh',
+        processor: 'Snapdragon 8 Gen 3',
+        color: 'Ocean Blue',
+        inStock: true
+      },
+      {
+        id: 9,
+        name: 'Motorola Edge 40 Pro',
+        brand: 'Motorola',
+        price: 699,
+        image: 'https://images.unsplash.com/photo-1592750475338-74b7b21085ab?w=800&h=1000&fit=crop&q=80',
+        description: 'Sleek design with flagship performance and clean Android experience.',
+        storage: '256GB',
+        ram: '12GB',
+        display: '6.67" pOLED',
+        camera: '50MP Main + 50MP Ultra Wide + 12MP Telephoto',
+        battery: '4600 mAh',
+        processor: 'Snapdragon 8 Gen 2',
+        color: 'Lunar Blue',
+        inStock: true
+      },
+      {
+        id: 10,
+        name: 'ASUS ROG Phone 8',
+        brand: 'ASUS',
+        price: 1199,
+        image: 'https://images.unsplash.com/photo-1610945265064-0e34e5519bbf?w=800&h=1000&fit=crop&q=80',
+        description: 'Gaming powerhouse with advanced cooling and high refresh rate display.',
+        storage: '512GB',
+        ram: '24GB',
+        display: '6.78" AMOLED 165Hz',
+        camera: '50MP Main + 13MP Ultra Wide + 5MP Macro',
+        battery: '5500 mAh',
+        processor: 'Snapdragon 8 Gen 3',
+        color: 'Phantom Black',
+        inStock: true
+      },
+      {
+        id: 11,
+        name: 'Honor Magic 6 Pro',
+        brand: 'Honor',
+        price: 949,
+        image: 'https://images.unsplash.com/photo-1592899677977-9c10ca588bbd?w=800&h=1000&fit=crop&q=80',
+        description: 'Premium flagship with advanced AI features and exceptional battery life.',
+        storage: '512GB',
+        ram: '16GB',
+        display: '6.8" LTPO OLED',
+        camera: '50MP Main + 50MP Periscope + 50MP Ultra Wide',
+        battery: '5600 mAh',
+        processor: 'Snapdragon 8 Gen 3',
+        color: 'Epi Green',
+        inStock: true
+      },
+      {
+        id: 12,
+        name: 'Vivo X100 Pro',
+        brand: 'Vivo',
+        price: 899,
+        image: 'https://images.unsplash.com/photo-1601784551446-20c9e07cdbdb?w=800&h=1000&fit=crop&q=80',
+        description: 'Camera-focused flagship with Zeiss optics and powerful performance.',
+        storage: '512GB',
+        ram: '16GB',
+        display: '6.78" LTPO AMOLED',
+        camera: '50MP Zeiss Main + 64MP Periscope + 50MP Ultra Wide',
+        battery: '5400 mAh',
+        processor: 'MediaTek Dimensity 9300',
+        color: 'Starry Blue',
+        inStock: true
+      }
+    ];
+  }
+}
+

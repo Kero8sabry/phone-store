@@ -1,0 +1,24 @@
+<div class="phone-card" (click)="viewDetails()">
+  <div class="phone-image">
+    <img [src]="phone.image" [alt]="phone.name" onerror="this.src='https://via.placeholder.com/300x400?text=Phone'">
+    <div class="phone-badge" *ngIf="phone.inStock">In Stock</div>
+    <div class="phone-badge out-of-stock" *ngIf="!phone.inStock">Out of Stock</div>
+  </div>
+  <div class="phone-info">
+    <span class="phone-brand">{{ phone.brand }}</span>
+    <h3 class="phone-name">{{ phone.name }}</h3>
+    <div class="phone-specs">
+      <span>{{ phone.storage }}</span>
+      <span>•</span>
+      <span>{{ phone.ram }}</span>
+    </div>
+    <div class="phone-footer">
+      <div class="phone-price">${{ phone.price }}</div>
+      <button class="btn-add-cart" (click)="addToCart($event)" [disabled]="!phone.inStock">
+        <span *ngIf="phone.inStock">+ Add</span>
+        <span *ngIf="!phone.inStock">Unavailable</span>
+      </button>
+    </div>
+  </div>
+</div>
+

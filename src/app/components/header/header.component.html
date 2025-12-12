@@ -1,0 +1,54 @@
+<header class="header">
+  <div class="container">
+    <div class="header-content">
+      <div class="logo" (click)="router.navigate(['/'])">
+        <h1>Dream 2005</h1>
+      </div>
+      
+      <nav class="nav" [class.menu-open]="isMenuOpen">
+        <a routerLink="/" routerLinkActive="active" [routerLinkActiveOptions]="{exact: true}">Home</a>
+        <a routerLink="/products" routerLinkActive="active">Products</a>
+        <a routerLink="/cart" routerLinkActive="active">Cart</a>
+        <a routerLink="/settings" routerLinkActive="active">Settings</a>
+        <a routerLink="/signin" routerLinkActive="active" class="signin-link">Sign In</a>
+      </nav>
+
+      <div class="header-actions">
+        <div class="theme-controls">
+          <div class="color-picker">
+            <button class="color-btn" [class.active]="themeService.getColor() === 'indigo'" 
+                    (click)="setColor('indigo')" style="background: #6366f1;"></button>
+            <button class="color-btn" [class.active]="themeService.getColor() === 'purple'" 
+                    (click)="setColor('purple')" style="background: #8b5cf6;"></button>
+            <button class="color-btn" [class.active]="themeService.getColor() === 'pink'" 
+                    (click)="setColor('pink')" style="background: #ec4899;"></button>
+            <button class="color-btn" [class.active]="themeService.getColor() === 'blue'" 
+                    (click)="setColor('blue')" style="background: #3b82f6;"></button>
+            <button class="color-btn" [class.active]="themeService.getColor() === 'green'" 
+                    (click)="setColor('green')" style="background: #10b981;"></button>
+            <button class="color-btn" [class.active]="themeService.getColor() === 'orange'" 
+                    (click)="setColor('orange')" style="background: #f59e0b;"></button>
+          </div>
+          <button class="theme-toggle" (click)="toggleTheme()">
+            <span *ngIf="themeService.getTheme() === 'light'">🌙</span>
+            <span *ngIf="themeService.getTheme() === 'dark'">☀️</span>
+          </button>
+        </div>
+
+        <button class="cart-btn" (click)="navigateToCart()">
+          🛒
+          <span class="cart-badge" *ngIf="(cartItemCount$ | async)! > 0">
+            {{ cartItemCount$ | async }}
+          </span>
+        </button>
+
+        <button class="menu-toggle" (click)="toggleMenu()">
+          <span></span>
+          <span></span>
+          <span></span>
+        </button>
+      </div>
+    </div>
+  </div>
+</header>
+

@@ -1,0 +1,65 @@
+<div class="products-page">
+  <div class="container">
+    <div class="page-header">
+      <h1>Our Products</h1>
+      <p>Browse our complete collection of premium smartphones</p>
+    </div>
+
+    <!-- Filters -->
+    <div class="filters-section">
+      <div class="search-box">
+        <input 
+          type="text" 
+          placeholder="Search phones..." 
+          [(ngModel)]="searchTerm"
+          (input)="onSearchChange()"
+          class="search-input">
+        <span class="search-icon">🔍</span>
+      </div>
+
+      <div class="filters">
+        <div class="filter-group">
+          <label>Brand:</label>
+          <select [(ngModel)]="selectedBrand" (change)="onBrandChange()" class="filter-select">
+            <option value="all">All Brands</option>
+            <option *ngFor="let brand of brands" [value]="brand">{{ brand }}</option>
+          </select>
+        </div>
+
+        <div class="filter-group">
+          <label>Sort by:</label>
+          <select [(ngModel)]="selectedSort" (change)="onSortChange()" class="filter-select">
+            <option value="default">Default</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="name">Name: A to Z</option>
+          </select>
+        </div>
+      </div>
+    </div>
+
+    <!-- Products Grid -->
+    <div class="products-grid" *ngIf="!loading && filteredPhones.length > 0">
+      <app-phone-card *ngFor="let phone of filteredPhones" [phone]="phone"></app-phone-card>
+    </div>
+
+    <!-- Loading State -->
+    <div class="loading" *ngIf="loading">
+      <div class="spinner"></div>
+      <p>Loading products...</p>
+    </div>
+
+    <!-- No Results -->
+    <div class="no-results" *ngIf="!loading && filteredPhones.length === 0">
+      <div class="no-results-icon">📱</div>
+      <h2>No products found</h2>
+      <p>Try adjusting your search or filters</p>
+    </div>
+
+    <!-- Results Count -->
+    <div class="results-count" *ngIf="!loading">
+      <p>Showing {{ filteredPhones.length }} of {{ phones.length }} products</p>
+    </div>
+  </div>
+</div>
+

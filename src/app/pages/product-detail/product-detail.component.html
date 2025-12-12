@@ -1,0 +1,90 @@
+<div class="product-detail-page">
+  <div class="container" *ngIf="!loading && phone">
+    <button class="back-btn" (click)="goBack()">← Back to Products</button>
+
+    <div class="product-detail">
+      <div class="product-images">
+        <div class="main-image">
+          <img [src]="selectedImage" [alt]="phone.name" onerror="this.src='https://via.placeholder.com/500x600?text=Phone'">
+        </div>
+      </div>
+
+      <div class="product-details">
+        <span class="product-brand">{{ phone.brand }}</span>
+        <h1 class="product-name">{{ phone.name }}</h1>
+        <div class="product-price">${{ phone.price }}</div>
+
+        <div class="product-description">
+          <p>{{ phone.description }}</p>
+        </div>
+
+        <div class="product-specs">
+          <h3>Specifications</h3>
+          <div class="specs-grid">
+            <div class="spec-item">
+              <span class="spec-label">Storage:</span>
+              <span class="spec-value">{{ phone.storage }}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">RAM:</span>
+              <span class="spec-value">{{ phone.ram }}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Display:</span>
+              <span class="spec-value">{{ phone.display }}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Camera:</span>
+              <span class="spec-value">{{ phone.camera }}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Battery:</span>
+              <span class="spec-value">{{ phone.battery }}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Processor:</span>
+              <span class="spec-value">{{ phone.processor }}</span>
+            </div>
+            <div class="spec-item">
+              <span class="spec-label">Color:</span>
+              <span class="spec-value">{{ phone.color }}</span>
+            </div>
+          </div>
+        </div>
+
+        <div class="product-actions">
+          <div class="quantity-selector">
+            <button class="qty-btn" (click)="decreaseQuantity()">-</button>
+            <span class="qty-value">{{ quantity }}</span>
+            <button class="qty-btn" (click)="increaseQuantity()">+</button>
+          </div>
+
+          <button 
+            class="btn btn-primary add-to-cart-btn" 
+            (click)="addToCart()"
+            [disabled]="!phone.inStock">
+            {{ phone.inStock ? 'Add to Cart' : 'Out of Stock' }}
+          </button>
+        </div>
+
+        <div class="product-status" *ngIf="phone.inStock">
+          <span class="status-badge in-stock">✓ In Stock</span>
+        </div>
+        <div class="product-status" *ngIf="!phone.inStock">
+          <span class="status-badge out-of-stock">✗ Out of Stock</span>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="loading" *ngIf="loading">
+    <div class="spinner"></div>
+    <p>Loading product details...</p>
+  </div>
+
+  <div class="not-found" *ngIf="!loading && !phone">
+    <h2>Product not found</h2>
+    <button class="btn btn-primary" (click)="goBack()">Back to Products</button>
+  </div>
+</div>
+
